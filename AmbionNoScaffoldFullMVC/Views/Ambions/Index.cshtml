@@ -1,0 +1,67 @@
+﻿@model List<AmbionNoScaffoldFullMVC.Models.Ambion>
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model[0].AmbionId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model[0].AmbionName)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            if (item.AmbionStatus == true)
+            {
+                <tr style="background-color:#e4ffcc">
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AmbionId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AmbionName)
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.AmbionId">Edit</a> |
+                        <a asp-action="Delete" asp-route-id="@item.AmbionId">Delete</a>
+                    </td>
+                </tr>
+            }
+
+            else
+            {
+                <tr style="background-color:#ffb3b3">
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AmbionId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AmbionName)
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.AmbionId">Edit</a> |
+                        <a asp-action="Delete" asp-route-id="@item.AmbionId">Delete</a>
+                    </td>
+                </tr>
+            }
+
+        }
+    </tbody>
+</table>
+
+
+<a asp-controller="Home" asp-action="Index">Home</a>
+
+<h1>Index</h1>
+

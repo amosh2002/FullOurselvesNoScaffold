@@ -1,0 +1,73 @@
+﻿@model List<AmbionNoScaffoldFullMVC.Models.Student>
+@{
+    ViewData["Title"] = "Index";
+}
+
+
+
+<h1>Index</h1>
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+
+<form asp-controller="Students" asp-action="Index" method="get">
+    <div class="form-group">
+        <label class="control-label">Grade</label>
+        <select asp-for="@Model[0].CurrentGradeID" asp-items="(SelectList)@ViewData["AllDistinctGradesSelectlist"]"></select>
+        <input type="submit" value="Filter" />
+        <a style="margin-left:30px;" asp-action="Index">Reset Filter</a>
+    </div>
+</form>
+
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model[0].Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model[0].StudentName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model[0].Ambion.AmbionName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model[0].Grade.GradeName)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StudentName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Ambion.AmbionName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Grade.GradeName)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+
+         }
+    </tbody>
+</table>
+
+
+
+
+
+<a asp-controller="Home" asp-action="Index">Home</a>
