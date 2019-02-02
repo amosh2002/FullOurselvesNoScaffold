@@ -49,6 +49,36 @@ namespace AmbionNoScaffoldFullMVC.Controllers
                       StudentName = s.StudentName
                   };
 
+
+
+            string AmbionIdFromSearchFilter = Request.Query.FirstOrDefault(x => x.Key == "[0].CurrentAmbionID").Value;
+
+            IQueryable<Ambion> allAmbions = from amb in _context.Ambion
+                                            where amb.AmbionStatus == true
+                                            select amb;
+
+
+            IQueryable<Ambion> filteredAmbion = from o in _context.Ambion
+                                                where o.AmbionStatus == true
+                                                where o.AmbionId == Int32.Parse(AmbionIdFromSearchFilter)
+                                                select o;
+
+            IQueryable<Student> filteredStudentsByAmbion =
+                  from s in _context.Student
+                  from g in _context.Grade
+                  from a in filteredAmbion
+
+                  where s.CurrentGradeID == g.GradeId
+                  where s.CurrentAmbionID == a.AmbionId
+
+                  select new Student
+                  {
+                      Ambion = a,
+                      Grade = g,
+                      Id = s.Id,
+                      StudentName = s.StudentName
+                  };
+
             IQueryable<Student> allStudents =
                   from a in _context.Ambion
                   from s in _context.Student
@@ -70,6 +100,7 @@ namespace AmbionNoScaffoldFullMVC.Controllers
 
 
             ViewData["AllDistinctGradesSelectlist"] = new SelectList(await allGrades.Distinct().ToListAsync(), "GradeId", "GradeName");
+            ViewData["AllDistinctAmbionsSelectlist"] = new SelectList(await allAmbions.Distinct().ToListAsync(), "AmbionId", "AmbionName");
 
             List<Student> returningStudents = null;
 
