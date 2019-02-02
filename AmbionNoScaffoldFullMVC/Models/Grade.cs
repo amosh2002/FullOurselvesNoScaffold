@@ -12,7 +12,6 @@ namespace AmbionNoScaffoldFullMVC.Models
     {
         [Key]
         public int GradeId { get; set; }
-        [Required]
         public string GradeName { get; set; }
         [Required]
         public bool GradeStatus { get; set; }
@@ -21,5 +20,6 @@ namespace AmbionNoScaffoldFullMVC.Models
 
         [NotMapped]
         public SelectList Gradener { get; set; }
+
     }
 }

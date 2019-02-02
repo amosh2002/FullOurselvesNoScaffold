@@ -21,30 +21,33 @@ namespace AmbionNoScaffoldFullMVC.Controllers
 
         public async Task<IActionResult> Index()
         {
-            string IdFromSearchFilter = Request.Query.FirstOrDefault(x => x.Key == "[0].CurrentGradeID").Value;
+            string GradeIdFromSearchFilter = Request.Query.FirstOrDefault(x => x.Key == "[0].CurrentGradeID").Value;
 
             IQueryable<Grade> allGrades = from grd in _context.Grade
                                           where grd.GradeStatus == true
                                           select grd;
 
+
             IQueryable<Grade> filteredGrade = from o in _context.Grade
                                               where o.GradeStatus == true
-                                              where o.GradeId == Int32.Parse(IdFromSearchFilter)
+                                              where o.GradeId == Int32.Parse(GradeIdFromSearchFilter)
                                               select o;
 
             IQueryable<Student> filteredStudentsByGrade =
                   from s in _context.Student
                   from g in filteredGrade
+                  from a in _context.Ambion
 
                   where s.CurrentGradeID == g.GradeId
+                  where s.CurrentAmbionID == a.AmbionId
 
                   select new Student
                   {
+                      Ambion = a,
                       Grade = g,
                       Id = s.Id,
                       StudentName = s.StudentName
                   };
-
 
             IQueryable<Student> allStudents =
                   from a in _context.Ambion
@@ -67,8 +70,10 @@ namespace AmbionNoScaffoldFullMVC.Controllers
 
 
             ViewData["AllDistinctGradesSelectlist"] = new SelectList(await allGrades.Distinct().ToListAsync(), "GradeId", "GradeName");
+
             List<Student> returningStudents = null;
-            if (IdFromSearchFilter == null)
+
+            if (GradeIdFromSearchFilter == null)
             {
                 returningStudents = await allStudents.ToListAsync();
             }
@@ -223,6 +228,6 @@ namespace AmbionNoScaffoldFullMVC.Controllers
         {
             return _context.Student.Any(e => e.Id == id);
         }
-       
+
     }
 }

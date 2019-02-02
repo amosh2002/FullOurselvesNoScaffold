@@ -3,8 +3,6 @@
     ViewData["Title"] = "Index";
 }
 
-
-
 <h1>Index</h1>
 <p>
     <a asp-action="Create">Create New</a>
@@ -15,8 +13,13 @@
         <label class="control-label">Grade</label>
         <select asp-for="@Model[0].CurrentGradeID" asp-items="(SelectList)@ViewData["AllDistinctGradesSelectlist"]"></select>
         <input type="submit" value="Filter" />
-        <a style="margin-left:30px;" asp-action="Index">Reset Filter</a>
     </div>
+    @*<div class="form-group">
+        <label class="control-label">Ambion</label>
+        <select asp-for="@Model[0].CurrentAmbionID" asp-items="(SelectList)@ViewData["AllDistinctAmbionsSelectlist"]"></select>
+        <input type="submit" value="Filter" />
+        <a style="margin-left:30px;" asp-action="Index">Reset Filters</a>
+    </div>*@
 </form>
 
 
